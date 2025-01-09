@@ -1,36 +1,27 @@
-name: Hello World Template
+
+# madhushesharam/.github/.github/workflows/sample-init.yml@main" 
+name: Sample Init Reference
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      MANDATORY_PARAM:
+        description: "A recommended parameter"
+        required: false
+        default: "default-mandatory"
+      OPTIONAL_PARAM:
+        description: "An optional parameter"
+        required: false
+        default: "N/A"
 
 jobs:
   print-runner-info:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Sample Init Reference
+      - name: Print Input Parameters
         run: |
-          echo "Initializing workflow..."
-          
-          # Check for MANDATORY_PARAM
-          if [ -z "${{ secrets.MANDATORY_PARAM }}" ]; then
-            echo "::warning::MANDATORY_PARAM is not set. It is recommended to configure this value."
-            MANDATORY_PARAM="default-mandatory"
-          fi
-
-          # Check for OPTIONAL_PARAM
-          if [ -z "${{ secrets.OPTIONAL_PARAM }}" ]; then
-            echo "::warning::OPTIONAL_PARAM is not set. Defaulting to 'N/A'."
-            OPTIONAL_PARAM="N/A"
-          fi
-
-          echo "MANDATORY_PARAM: $MANDATORY_PARAM"
-          echo "OPTIONAL_PARAM: $OPTIONAL_PARAM"
+          echo "MANDATORY_PARAM: ${{ inputs.MANDATORY_PARAM }}"
+          echo "OPTIONAL_PARAM: ${{ inputs.OPTIONAL_PARAM }}"
 
       - name: Print Runner Hostname
         run: |
@@ -40,11 +31,3 @@ jobs:
         run: |
           IP=$(hostname -I | awk '{print $1}')
           echo "IP Address: $IP"
-          echo "::set-output name=runner_ip::$IP"
-
-      - name: Output IP and Hostname
-        run: |
-          echo "Runner IP: ${{ steps.ip.outputs.runner_ip }}"
-          echo "Runner Hostname: $(hostname)"
-          echo "MANDATORY_PARAM: $MANDATORY_PARAM"
-          echo "OPTIONAL_PARAM: $OPTIONAL_PARAM"
