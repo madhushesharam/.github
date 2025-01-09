@@ -1,0 +1,50 @@
+name: Hello World Template
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  print-runner-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Sample Init Reference
+        run: |
+          echo "Initializing workflow..."
+          
+          # Check for MANDATORY_PARAM
+          if [ -z "${{ secrets.MANDATORY_PARAM }}" ]; then
+            echo "::warning::MANDATORY_PARAM is not set. It is recommended to configure this value."
+            MANDATORY_PARAM="default-mandatory"
+          fi
+
+          # Check for OPTIONAL_PARAM
+          if [ -z "${{ secrets.OPTIONAL_PARAM }}" ]; then
+            echo "::warning::OPTIONAL_PARAM is not set. Defaulting to 'N/A'."
+            OPTIONAL_PARAM="N/A"
+          fi
+
+          echo "MANDATORY_PARAM: $MANDATORY_PARAM"
+          echo "OPTIONAL_PARAM: $OPTIONAL_PARAM"
+
+      - name: Print Runner Hostname
+        run: |
+          echo "Hostname: $(hostname)"
+
+      - name: Print Runner IP Address
+        run: |
+          IP=$(hostname -I | awk '{print $1}')
+          echo "IP Address: $IP"
+          echo "::set-output name=runner_ip::$IP"
+
+      - name: Output IP and Hostname
+        run: |
+          echo "Runner IP: ${{ steps.ip.outputs.runner_ip }}"
+          echo "Runner Hostname: $(hostname)"
+          echo "MANDATORY_PARAM: $MANDATORY_PARAM"
+          echo "OPTIONAL_PARAM: $OPTIONAL_PARAM"
