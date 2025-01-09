@@ -5,10 +5,6 @@ name: Sample Init Reference
 on:
   workflow_call:
     inputs:
-      MANDATORY_PARAM:
-        description: "A recommended parameter"
-        required: false
-        default: "default-mandatory"
       OPTIONAL_PARAM:
         description: "An optional parameter"
         required: false
@@ -20,7 +16,6 @@ jobs:
     steps:
       - name: Print Input Parameters
         run: |
-          echo "MANDATORY_PARAM: ${{ inputs.MANDATORY_PARAM }}"
           echo "OPTIONAL_PARAM: ${{ inputs.OPTIONAL_PARAM }}"
 
       - name: Print Runner Hostname
