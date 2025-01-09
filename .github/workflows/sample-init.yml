@@ -9,6 +9,7 @@ on:
         description: "An optional parameter"
         required: false
         default: "N/A"
+        type: string  # Specify the type
 
 jobs:
   print-runner-info:
