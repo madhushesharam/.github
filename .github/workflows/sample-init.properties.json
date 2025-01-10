@@ -1,0 +1,14 @@
+{
+    "name": "Sample Init Reference",
+    "description": "Sample Init Reference CI workflow template.",
+    "iconName": "example-icon",
+    "categories": [
+        "Go"
+  
+    ],
+    "filePatterns": [
+        "package.json$",
+        "^Dockerfile",
+        ".*\\.md$"
+    ]
+}
